@@ -16,6 +16,10 @@
       "email": "info@babichev.net"
     }
   ],
+  "require": {
+    "php": "^7.0",
+    "ext-phalcon": "^3.2"
+  },
   "autoload": {
     "psr-4": {
       "": "src/"
