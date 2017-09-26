@@ -1,4 +1,21 @@
 {
+  "name": "bavix/phalcon-project",
+  "description": "Phalcon Empty Project",
+  "keywords": [
+    "phalcon",
+    "project",
+    "empty",
+    "composer",
+    "mvc"
+  ],
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "REZ1DENT3",
+      "email": "info@babichev.net"
+    }
+  ],
   "autoload": {
     "psr-4": {
       "": "src/"
