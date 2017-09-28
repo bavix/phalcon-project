@@ -15,6 +15,12 @@ $di->setShared('config', function () {
     return new \Phalcon\Config(require BASE_PATH . '/etc/config.php');
 });
 
+$self = $this;
+
+$di->setShared('builder', function () use ($self) {
+    return $self;
+});
+
 /**
  * The URL component is used to generate all kind of urls in the application
  */

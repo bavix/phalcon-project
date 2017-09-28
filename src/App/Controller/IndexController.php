@@ -2,14 +2,18 @@
 
 namespace App\Controller;
 
-use Phalcon\Mvc\Controller;
+use Framework\Controller;
+use Observers\TestObserver;
 
 class IndexController extends Controller
 {
 
     public function indexAction()
     {
-        // todo
+        $this->builder->app()->queue(TestObserver::class, [
+            'hello' => 'world',
+            'time'  => \date('d.m.Y H:i:s', \time())
+        ]);
     }
 
 }
