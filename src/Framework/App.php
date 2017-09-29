@@ -91,7 +91,7 @@ class App extends Application
         {
             $object = new $class();
 
-            if (!($object instanceof Observer))
+            if (!($object instanceof QueueInterface))
             {
                 return null;
             }

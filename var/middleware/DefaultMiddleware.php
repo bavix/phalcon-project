@@ -3,13 +3,13 @@
 namespace Middleware;
 
 use Framework\Controller;
-use Framework\Middleware;
+use Framework\MiddlewareInterface;
 use Phalcon\Mvc\Dispatcher;
 
-class DefaultMiddleware implements Middleware
+class DefaultMiddleware implements MiddlewareInterface
 {
 
-    public function handle(Dispatcher $dispatcher, Controller $controller)
+    public function next(Dispatcher $dispatcher, Controller $controller)
     {
         $uri = $controller->request->getURI();
 

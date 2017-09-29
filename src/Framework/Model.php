@@ -2,67 +2,98 @@
 
 namespace Framework;
 
+use Doctrine\Common\Inflector\Inflector;
+
 class Model extends \Phalcon\Mvc\Model
 {
 
     /**
-     * @var array
+     * @var string
      */
-    protected $events = [];
+    protected $_observerClass;
 
-    protected function initEvent($name)
+    /**
+     * @var Observer
+     */
+    private $_observerObject;
+
+    /**
+     * @var string
+     */
+    protected $_tableName;
+
+    /**
+     * @param $name
+     * @param $data
+     * @param $whiteList
+     *
+     * @return void
+     */
+    protected function observer($name, $data = null, $whiteList = null)
     {
-        if (!($di = $this->getDI()))
+
+        $class = $this->_observerClass;
+
+        if (!$class)
         {
             return;
         }
 
-        if (empty($this->events[$name]))
+        if (!$this->_observerObject)
         {
-            return;
+            global $builder;
+            $this->_observerObject = new $class($this, $builder->di());
         }
 
-        $event = $this->events[$name];
+        $object = $this->_observerObject;
 
-        if (\is_string($event))
+        if (\method_exists($object, $name))
         {
-            $event = [$event, 'handle'];
+            $object->$name($data, $whiteList);
         }
 
-        $event($this->getDI(), $this);
     }
 
-    public function update($data = null, $whiteList = null)
+    public function getSource()
     {
-        $function = \ucfirst(__FUNCTION__);
+        if (!$this->_tableName)
+        {
+            $ref   = new \ReflectionClass(static::class);
+            $table = $ref->getShortName();
+            $table = lcfirst($table);
 
-        $this->initEvent('before' . $function);
-        $result = parent::update($data, $whiteList);
-        $this->initEvent('after' . $function);
+            $this->_tableName = Inflector::pluralize($table);
+        }
 
-        return $result;
+        return $this->_tableName;
     }
 
     public function create($data = null, $whiteList = null)
     {
-        $function = \ucfirst(__FUNCTION__);
+        $this->observer(__FUNCTION__, $data, $whiteList);
 
-        $this->initEvent('before' . $function);
-        $result = parent::create($data, $whiteList);
-        $this->initEvent('after' . $function);
+        return parent::create($data, $whiteList);
+    }
 
-        return $result;
+    public function update($data = null, $whiteList = null)
+    {
+        $this->observer(__FUNCTION__, $data, $whiteList);
+
+        return parent::update($data, $whiteList);
+    }
+
+    public function save($data = null, $whiteList = null)
+    {
+        $this->observer(isset($this->id) ? 'update' : 'create', $data, $whiteList);
+
+        return parent::save($data, $whiteList);
     }
 
     public function delete()
     {
-        $function = \ucfirst(__FUNCTION__);
+        $this->observer(__FUNCTION__);
 
-        $this->initEvent('before' . $function);
-        $result = parent::delete();
-        $this->initEvent('after' . $function);
-
-        return $result;
+        return parent::delete();
     }
 
 }

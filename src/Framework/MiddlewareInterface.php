@@ -4,7 +4,7 @@ namespace Framework;
 
 use Phalcon\Mvc\Dispatcher;
 
-interface Middleware
+interface MiddlewareInterface
 {
     /**
      * @param Dispatcher $dispatcher
@@ -12,5 +12,5 @@ interface Middleware
      *
      * @return mixed
      */
-    public function handle(Dispatcher $dispatcher, Controller $controller);
+    public function next(Dispatcher $dispatcher, Controller $controller);
 }

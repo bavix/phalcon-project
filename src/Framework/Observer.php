@@ -2,7 +2,31 @@
 
 namespace Framework;
 
-interface Observer
+use Phalcon\DiInterface;
+
+abstract class Observer
 {
-    public function handle(Builder $builder, $data);
+
+    /**
+     * @var Model
+     */
+    protected $model;
+
+    /**
+     * @var DiInterface
+     */
+    protected $di;
+
+    /**
+     * Observer constructor.
+     *
+     * @param Model       $model
+     * @param DiInterface $di
+     */
+    public function __construct(Model $model, DiInterface $di)
+    {
+        $this->model = $model;
+        $this->di    = $di;
+    }
+
 }

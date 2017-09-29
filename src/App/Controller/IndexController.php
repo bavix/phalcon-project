@@ -3,13 +3,21 @@
 namespace App\Controller;
 
 use Framework\Controller;
-use Observers\TestObserver;
+use Observers\TestQueue;
+use Models\User;
 
 class IndexController extends Controller
 {
     public function indexAction()
     {
-        $this->builder->app()->queue(TestObserver::class, [
+//        $user = new User();
+//
+//        $user->update();
+//
+//        var_dump($user->toArray());
+//        die;
+
+        $this->builder->app()->queue(TestQueue::class, [
             'hello' => 'world',
             'time'  => \date('d.m.Y H:i:s', \time())
         ]);

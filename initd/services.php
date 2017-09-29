@@ -74,7 +74,6 @@ $di->setShared('view', function () {
 $di->setShared('db', function () {
     $configure = $this->getConfigure();
 
-    $class = 'Phalcon\Db\Adapter\Pdo\\' . $configure->database->adapter;
     $params = [
         'host'     => $configure->database->host,
         'username' => $configure->database->username,
@@ -83,11 +82,13 @@ $di->setShared('db', function () {
         'charset'  => $configure->database->charset
     ];
 
-    if ($configure->database->adapter === 'Postgresql') {
+    if ($configure->database->adapter === \Phalcon\Db\Adapter\Pdo\Postgresql::class) {
         unset($params['charset']);
     }
 
-    return new $class($params);
+    $adapter = $configure->database->adapter;
+
+    return new $adapter($params);
 });
 
 

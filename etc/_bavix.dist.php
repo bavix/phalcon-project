@@ -2,7 +2,7 @@
 
 return [
     'database'    => [
-        'adapter'  => 'Mysql',
+        'adapter'  => Phalcon\Db\Adapter\Pdo\Mysql::class,
         'host'     => 'localhost',
         'username' => 'root',
         'password' => '',

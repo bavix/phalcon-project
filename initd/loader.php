@@ -13,8 +13,8 @@ $configure = $di->get('configure');
  */
 $loader->registerNamespaces([
     'Observers'  => $configure->application->observersDir,
-    'Events'     => $configure->application->eventsDir,
     'Middleware' => $configure->application->middlewareDir,
+    'Models'     => $configure->application->modelsDir,
 ]);
 
 /**

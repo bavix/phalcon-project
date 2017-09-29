@@ -3,9 +3,9 @@
 namespace Observers;
 
 use Framework\Builder;
-use Framework\Observer;
+use Framework\QueueInterface;
 
-class TestObserver implements Observer
+class TestQueue implements QueueInterface
 {
 
     public function handle(Builder $builder, $data)

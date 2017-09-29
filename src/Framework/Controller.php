@@ -35,12 +35,12 @@ class Controller extends \Phalcon\Mvc\Controller
         {
             $object = new $middleware();
 
-            if (!($object instanceof Middleware))
+            if (!($object instanceof MiddlewareInterface))
             {
                 throw new \RuntimeException('Middleware `' . $middleware . '` not found');
             }
 
-            $result = $object->handle($dispatcher, $this);
+            $result = $object->next($dispatcher, $this);
 
             if (!$result || !\is_bool($result))
             {
