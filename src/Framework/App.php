@@ -14,11 +14,6 @@ class App extends Application
     protected $builder;
 
     /**
-     * @var string[]
-     */
-    protected $middleware;
-
-    /**
      * @var array
      */
     protected $queues;
@@ -26,7 +21,7 @@ class App extends Application
     /**
      * @var Config
      */
-    protected $cfg;
+    protected $config;
 
     /**
      * App constructor.
@@ -37,9 +32,7 @@ class App extends Application
     {
         parent::__construct($builder->di());
         $this->builder = $builder;
-        $this->cfg     = $builder->cfg();
-
-        $this->middleware = $this->cfg->get('middleware')->asArray();
+        $this->config  = $builder->config();
     }
 
     /**
@@ -47,7 +40,9 @@ class App extends Application
      */
     public function middleware(): array
     {
-        return $this->middleware;
+        return $this->config
+            ->get('middleware')
+            ->asArray();
     }
 
     /**

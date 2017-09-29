@@ -62,20 +62,10 @@ class Builder
     /**
      * @return \Bavix\Config\Config
      */
-    public function cfg()
-    {
-        return $this->once(__FUNCTION__, function () {
-            return new \Bavix\Config\Config(BASE_PATH . 'etc');
-        });
-    }
-
-    /**
-     * @return Config
-     */
     public function config()
     {
         return $this->once(__FUNCTION__, function () {
-            return $this->di()->getConfig();
+            return new \Bavix\Config\Config(BASE_PATH . 'etc');
         });
     }
 
@@ -94,9 +84,6 @@ class Builder
             }
 
             $this->initd('services');
-
-            $this->config();
-
             $this->initd('loader');
 
         });
@@ -108,6 +95,7 @@ class Builder
     {
         return $this->once($__serviceName, function () use ($__serviceName) {
 
+            $this->config();
             extract($this->rows, EXTR_OVERWRITE);
 
             return require $this->root() . 'initd/' . $__serviceName . '.php';

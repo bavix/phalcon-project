@@ -1,14 +1,7 @@
 <?php
 
 return [
-    'database'    => [
-        'adapter'  => 'Mysql',
-        'host'     => 'localhost',
-        'username' => 'root',
-        'password' => '',
-        'dbname'   => 'test',
-        'charset'  => 'utf8',
-    ],
+    'database'    => '%database%',
     'application' => [
         'appDir'         => BASE_PATH . 'src/App/',
         'controllersDir' => BASE_PATH . 'src/App/Controller/',

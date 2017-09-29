@@ -9,10 +9,15 @@ use Phalcon\Session\Adapter\Files as SessionAdapter;
 use Phalcon\Flash\Direct as Flash;
 
 /**
+ * @var \Bavix\Config\Config $config
+ * @var \Phalcon\DiInterface $di
+ */
+
+/**
  * Shared configuration service
  */
-$di->setShared('config', function () {
-    return new \Phalcon\Config(require BASE_PATH . '/etc/config.php');
+$di->setShared('configure', function () use ($config) {
+    return new \Phalcon\Config($config->get('configure')->asArray());
 });
 
 $self = $this;
@@ -25,10 +30,10 @@ $di->setShared('builder', function () use ($self) {
  * The URL component is used to generate all kind of urls in the application
  */
 $di->setShared('url', function () {
-    $config = $this->getConfig();
+    $configure = $this->getConfigure();
 
     $url = new UrlResolver();
-    $url->setBaseUri($config->application->baseUri);
+    $url->setBaseUri($configure->application->baseUri);
 
     return $url;
 });
@@ -37,20 +42,20 @@ $di->setShared('url', function () {
  * Setting up the view component
  */
 $di->setShared('view', function () {
-    $config = $this->getConfig();
+    $configure = $this->getConfigure();
 
     $view = new View();
     $view->setDI($this);
-    $view->setViewsDir($config->application->viewsDir);
+    $view->setViewsDir($configure->application->viewsDir);
 
     $view->registerEngines([
         '.volt' => function ($view) {
-            $config = $this->getConfig();
+            $configure = $this->getConfigure();
 
             $volt = new VoltEngine($view, $this);
 
             $volt->setOptions([
-                'compiledPath' => $config->application->cacheDir,
+                'compiledPath' => $configure->application->cacheDir,
                 'compiledSeparator' => '_'
             ]);
 
@@ -67,18 +72,18 @@ $di->setShared('view', function () {
  * Database connection is created based in the parameters defined in the configuration file
  */
 $di->setShared('db', function () {
-    $config = $this->getConfig();
+    $configure = $this->getConfigure();
 
-    $class = 'Phalcon\Db\Adapter\Pdo\\' . $config->database->adapter;
+    $class = 'Phalcon\Db\Adapter\Pdo\\' . $configure->database->adapter;
     $params = [
-        'host'     => $config->database->host,
-        'username' => $config->database->username,
-        'password' => $config->database->password,
-        'dbname'   => $config->database->dbname,
-        'charset'  => $config->database->charset
+        'host'     => $configure->database->host,
+        'username' => $configure->database->username,
+        'password' => $configure->database->password,
+        'dbname'   => $configure->database->dbname,
+        'charset'  => $configure->database->charset
     ];
 
-    if ($config->database->adapter === 'Postgresql') {
+    if ($configure->database->adapter === 'Postgresql') {
         unset($params['charset']);
     }
 

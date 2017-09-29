@@ -3,20 +3,26 @@
 $loader = new \Phalcon\Loader();
 
 /**
+ * @var \Phalcon\DiInterface $di
+ */
+
+$configure = $di->get('configure');
+
+/**
  * namespaces
  */
 $loader->registerNamespaces([
-    'Observers'  => $config->application->observersDir,
-    'Events'     => $config->application->eventsDir,
-    'Middleware' => $config->application->middlewareDir,
+    'Observers'  => $configure->application->observersDir,
+    'Events'     => $configure->application->eventsDir,
+    'Middleware' => $configure->application->middlewareDir,
 ]);
 
 /**
  * We're a registering a set of directories taken from the configuration file
  */
 $loader->registerDirs([
-    $config->application->controllersDir,
-    $config->application->modelsDir,
+    $configure->application->controllersDir,
+    $configure->application->modelsDir,
 ]);
 
 $loader->register();
