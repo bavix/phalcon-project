@@ -24,7 +24,10 @@
   },
   "autoload": {
     "psr-4": {
-      "": "src/"
+      "": "src/",
+      "Observers\\": "var/observers/",
+      "Queues\\": "var/queues/",
+      "Models\\": "var/models/"
     }
   },
   "autoload-dev": {

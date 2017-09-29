@@ -65,7 +65,7 @@ class Builder
     public function config()
     {
         return $this->once(__FUNCTION__, function () {
-            return new \Bavix\Config\Config(BASE_PATH . 'etc');
+            return new \Bavix\Config\Config(BASE_PATH . 'config');
         });
     }
 

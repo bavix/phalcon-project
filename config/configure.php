@@ -10,6 +10,7 @@ return [
         'observersDir'   => BASE_PATH . 'var/observers/',
         'queuesDir'      => BASE_PATH . 'var/queues/',
         'modelsDir'      => BASE_PATH . 'var/models/',
+        'modulesDir'     => BASE_PATH . 'var/modules/',
         'viewsDir'       => BASE_PATH . 'var/views/',
         'pluginsDir'     => BASE_PATH . 'var/plugins/',
         'libraryDir'     => BASE_PATH . 'var/library/',
