@@ -2,6 +2,7 @@
 
 namespace Framework;
 
+use Bavix\Config\Config;
 use Phalcon\Mvc\Application;
 
 class App extends Application
@@ -13,9 +14,19 @@ class App extends Application
     protected $builder;
 
     /**
+     * @var string[]
+     */
+    protected $middleware;
+
+    /**
      * @var array
      */
     protected $queues;
+
+    /**
+     * @var Config
+     */
+    protected $cfg;
 
     /**
      * App constructor.
@@ -26,6 +37,17 @@ class App extends Application
     {
         parent::__construct($builder->di());
         $this->builder = $builder;
+        $this->cfg     = $builder->cfg();
+
+        $this->middleware = $this->cfg->get('middleware')->asArray();
+    }
+
+    /**
+     * @return string[]
+     */
+    public function middleware(): array
+    {
+        return $this->middleware;
     }
 
     /**
@@ -79,7 +101,7 @@ class App extends Application
                 return null;
             }
 
-            $class  = [$object, 'handle'];
+            $class = [$object, 'handle'];
         }
 
         return $class($this->builder, $data);

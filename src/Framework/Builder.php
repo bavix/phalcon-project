@@ -2,6 +2,7 @@
 
 namespace Framework;
 
+use Phalcon\Config;
 use Phalcon\Di\FactoryDefault;
 
 class Builder
@@ -58,6 +59,19 @@ class Builder
         });
     }
 
+    /**
+     * @return \Bavix\Config\Config
+     */
+    public function cfg()
+    {
+        return $this->once(__FUNCTION__, function () {
+            return new \Bavix\Config\Config(BASE_PATH . 'etc');
+        });
+    }
+
+    /**
+     * @return Config
+     */
     public function config()
     {
         return $this->once(__FUNCTION__, function () {

@@ -6,7 +6,8 @@ $loader = new \Phalcon\Loader();
  * namespaces
  */
 $loader->registerNamespaces([
-    'Observers' => $config->application->observersDir
+    'Observers'  => $config->application->observersDir,
+    'Middleware' => $config->application->middlewareDir,
 ]);
 
 /**

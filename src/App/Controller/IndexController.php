@@ -7,7 +7,6 @@ use Observers\TestObserver;
 
 class IndexController extends Controller
 {
-
     public function indexAction()
     {
         $this->builder->app()->queue(TestObserver::class, [
