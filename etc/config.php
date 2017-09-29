@@ -15,6 +15,7 @@ return [
         'modelsDir'      => BASE_PATH . 'var/models/',
         'migrationsDir'  => BASE_PATH . 'var/migrations/',
         'observersDir'   => BASE_PATH . 'var/observers/',
+        'eventsDir'      => BASE_PATH . 'var/events/',
         'middlewareDir'  => BASE_PATH . 'var/middleware/',
         'viewsDir'       => BASE_PATH . 'var/views/',
         'pluginsDir'     => BASE_PATH . 'var/plugins/',

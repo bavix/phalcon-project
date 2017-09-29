@@ -7,6 +7,7 @@ $loader = new \Phalcon\Loader();
  */
 $loader->registerNamespaces([
     'Observers'  => $config->application->observersDir,
+    'Events'     => $config->application->eventsDir,
     'Middleware' => $config->application->middlewareDir,
 ]);
 
