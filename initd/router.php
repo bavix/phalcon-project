@@ -4,7 +4,7 @@
  * @var $router  \Phalcon\Mvc\Router
  * @var $di      \Phalcon\Di\FactoryDefault
  */
-$router = $di->getRouter();
+$router = $di->get('router');
 
 $router->setDefaultNamespace('App\Controller');
 

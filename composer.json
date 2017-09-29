@@ -18,7 +18,7 @@
   ],
   "require": {
     "php": "^7.0",
-    "doctrine/inflector": "~1.0",
+    "doctrine/inflector": "^1.0",
     "bavix/config": "^1.0",
     "ext-phalcon": "^3.2"
   },

@@ -21,8 +21,7 @@ $loader->registerNamespaces([
  * We're a registering a set of directories taken from the configuration file
  */
 $loader->registerDirs([
-    $configure->application->controllersDir,
-    $configure->application->modelsDir,
+    $configure->application->controllersDir
 ]);
 
 $loader->register();

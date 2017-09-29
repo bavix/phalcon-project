@@ -69,11 +69,11 @@ class App extends Application
         if (function_exists('\fastcgi_finish_request'))
         {
             \fastcgi_finish_request();
+        }
 
-            foreach ($this->queues as list($queue, $data))
-            {
-                $this->startQueue($queue, $data);
-            }
+        foreach ($this->queues as list($queue, $data))
+        {
+            $this->startQueue($queue, $data);
         }
 
         die;
