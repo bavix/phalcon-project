@@ -4,7 +4,7 @@ namespace Framework;
 
 use Phalcon\Mvc\Dispatcher;
 
-class Controller extends \Phalcon\Mvc\Controller
+class ControllerBase extends \Phalcon\Mvc\Controller
 {
 
     /**

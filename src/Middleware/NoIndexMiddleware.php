@@ -2,14 +2,14 @@
 
 namespace Middleware;
 
-use Framework\Controller;
+use Framework\ControllerBase;
 use Framework\MiddlewareInterface;
 use Phalcon\Mvc\Dispatcher;
 
 class NoIndexMiddleware implements MiddlewareInterface
 {
 
-    public function next(Dispatcher $dispatcher, Controller $controller)
+    public function next(Dispatcher $dispatcher, ControllerBase $controller)
     {
         $uri = $controller->request->getURI();
 

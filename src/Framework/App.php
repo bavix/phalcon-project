@@ -33,6 +33,8 @@ class App extends Application
         parent::__construct($builder->di());
         $this->builder = $builder;
         $this->config  = $builder->config();
+
+        $this->loadModules();
     }
 
     /**
@@ -59,11 +61,21 @@ class App extends Application
     }
 
     /**
+     * register modules
+     */
+    protected function loadModules()
+    {
+        $modules = $this->config->get('modules');
+        $this->registerModules($modules->asArray());
+    }
+
+    /**
      * Terminate application
      */
     public function terminate()
     {
         $response = $this->handle($this->builder->urlPath());
+
         echo $response->getContent();
 
         if (function_exists('\fastcgi_finish_request'))

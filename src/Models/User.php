@@ -7,6 +7,6 @@ use Framework\Model;
 class User extends Model
 {
 
-    protected $_observerClass = \Observers\User::class;
+//    protected $_observerClass = \Observers\User::class;
 
 }

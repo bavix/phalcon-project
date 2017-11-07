@@ -1,9 +1,6 @@
 <?php
 
-use Phalcon\Mvc\View;
-use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 use Phalcon\Mvc\Url as UrlResolver;
-use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Session\Adapter\Files as SessionAdapter;
 use Phalcon\Flash\Direct as Flash;
@@ -36,36 +33,6 @@ $di->setShared('url', function () {
     $url->setBaseUri($configure->application->baseUri);
 
     return $url;
-});
-
-/**
- * Setting up the view component
- */
-$di->setShared('view', function () {
-    $configure = $this->getConfigure();
-
-    $view = new View();
-    $view->setDI($this);
-    $view->setViewsDir($configure->application->viewsDir);
-
-    $view->registerEngines([
-        '.volt' => function ($view) {
-            $configure = $this->getConfigure();
-
-            $volt = new VoltEngine($view, $this);
-
-            $volt->setOptions([
-                'compiledPath' => $configure->application->cacheDir,
-                'compiledSeparator' => '_'
-            ]);
-
-            return $volt;
-        },
-        '.phtml' => PhpEngine::class
-
-    ]);
-
-    return $view;
 });
 
 /**
