@@ -54,7 +54,7 @@ class Model extends \Phalcon\Mvc\Model
 
     }
 
-    public function getSource()
+    public function getSource(): string
     {
         if (!$this->_tableName)
         {
@@ -70,30 +70,39 @@ class Model extends \Phalcon\Mvc\Model
 
     public function create($data = null, $whiteList = null)
     {
-        $this->observer(__FUNCTION__, $data, $whiteList);
+        $this->observer('creating', $data, $whiteList);
+        $result = parent::create($data, $whiteList);
+        $this->observer('created', $data, $whiteList);
 
-        return parent::create($data, $whiteList);
+        return $result;
     }
 
     public function update($data = null, $whiteList = null)
     {
-        $this->observer(__FUNCTION__, $data, $whiteList);
+        $this->observer('updating', $data, $whiteList);
+        $result = parent::update($data, $whiteList);
+        $this->observer('updated', $data, $whiteList);
 
-        return parent::update($data, $whiteList);
+        return $result;
     }
 
     public function save($data = null, $whiteList = null)
     {
-        $this->observer(isset($this->id) ? 'update' : 'create', $data, $whiteList);
+        $creating = isset($this->id);
+        $this->observer($creating ? 'updating' : 'creating', $data, $whiteList);
+        $result = parent::save($data, $whiteList);
+        $this->observer($creating ? 'updated' : 'created', $data, $whiteList);
 
-        return parent::save($data, $whiteList);
+        return $result;
     }
 
     public function delete()
     {
-        $this->observer(__FUNCTION__);
+        $this->observer('deleting');
+        $result = parent::delete();
+        $this->observer('deleted');
 
-        return parent::delete();
+        return $result;
     }
 
 }
