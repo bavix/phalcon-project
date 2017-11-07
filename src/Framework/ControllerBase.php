@@ -13,11 +13,29 @@ class ControllerBase extends \Phalcon\Mvc\Controller
     protected $builder;
 
     /**
+     * @var array
+     */
+    protected $middleware;
+
+    /**
      * @return Builder
      */
     public function builder(): Builder
     {
         return $this->builder;
+    }
+
+    /**
+     * @return array|string[]
+     */
+    protected function middleware(): array
+    {
+       if ($this->middleware === null)
+       {
+           return $this->builder->app()->middleware();
+       }
+
+       return $this->middleware;
     }
 
     /**
@@ -31,7 +49,7 @@ class ControllerBase extends \Phalcon\Mvc\Controller
     {
         $this->builder = $this->di->get('builder');
 
-        foreach ($this->builder->app()->middleware() as $middleware)
+        foreach ($this->middleware() as $middleware)
         {
             $object = new $middleware();
 
