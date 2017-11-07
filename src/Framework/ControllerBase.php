@@ -2,6 +2,9 @@
 
 namespace Framework;
 
+use Bavix\Exceptions\Invalid;
+use Bavix\Helpers\JSON;
+use Phalcon\Http\Response;
 use Phalcon\Mvc\Dispatcher;
 
 class ControllerBase extends \Phalcon\Mvc\Controller
@@ -67,6 +70,29 @@ class ControllerBase extends \Phalcon\Mvc\Controller
         }
 
         return true;
+    }
+
+    public function afterExecuteRoute(Dispatcher $dispatcher)
+    {
+
+        /**
+         * @var $value \Phalcon\Mvc\View
+         */
+        $value = $dispatcher->getReturnedValue();
+
+        if ($value === null)
+        {
+            throw new Invalid('Response is empty', 422);
+        }
+
+        if (is_array($value) || (\is_object($value) && $value instanceof \JsonSerializable))
+        {
+            $response = new Response(JSON::encode($value), 200);
+            $response->setHeader('Content-Type', 'application/json; charset: utf-8');
+
+            $dispatcher->setReturnedValue($response);
+        }
+
     }
 
 }
