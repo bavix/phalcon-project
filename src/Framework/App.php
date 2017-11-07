@@ -74,7 +74,15 @@ class App extends Application
      */
     public function terminate()
     {
-        $response = $this->handle($this->builder->urlPath());
+        try {
+            $response = $this->handle($this->builder->urlPath());
+        } catch (\Throwable $throwable) {
+            if ($this->config->get('app')->getData('debug')) {
+                throw $throwable;
+            }
+
+            $response = $this->handle('/404');
+        }
 
         echo $response->getContent();
 
