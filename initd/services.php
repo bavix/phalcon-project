@@ -58,6 +58,45 @@ $di->setShared('db', function () {
     return new $adapter($params);
 });
 
+/**
+ * Setting up the view component
+ */
+$di->setShared('view', function () {
+
+    $view = new \Phalcon\Mvc\View();
+    $view->setDI($this);
+
+    $view->registerEngines([
+
+        '.twig' => function (\Phalcon\Mvc\View $view) {
+
+            /**
+             * @var \Framework\Builder $builder
+             */
+            $builder = $this['builder'];
+
+            $twig = new \Phalcon\Mvc\View\Engine\Twig($view, $this, [
+                'cache' => BASE_PATH . '/cache/'
+            ]);
+
+            if ($builder->config()->get('app')->getData('debug', false))
+            {
+                $twig->getTwig()->enableDebug();
+            }
+
+            $twig->getTwig()->setLoader(
+                $builder->getLoader()
+            );
+
+            return $twig;
+        },
+
+        '.phtml' => \Phalcon\Mvc\View\Engine\Php::class
+
+    ]);
+
+    return $view;
+});
 
 /**
  * If the configuration specify the use of metadata adapter use it or use memory otherwise
@@ -87,3 +126,14 @@ $di->setShared('session', function () {
 
     return $session;
 });
+
+$di->set('security', function () {
+    $security = new Phalcon\Security();
+
+    // Set the password hashing factor to 12 rounds
+    $security->setWorkFactor(12);
+
+    return $security;
+},
+    true
+);

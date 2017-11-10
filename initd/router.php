@@ -30,11 +30,12 @@ $loadRouter = function (
 
 $loadRouter->bindTo($this);
 $modules = $this->app()->getModules();
-$router->setDefaultModule(key($modules));
+//$router->setDefaultModule(key($modules));
 
 foreach ($modules as $prefix => $data)
 {
-    $path = dirname($data['path']) . '/config/router.php';
+    $directory = dirname($data['path']);
+    $path = $directory . '/config/router.php';
 
     if (!file_exists($path))
     {
@@ -54,6 +55,13 @@ foreach ($modules as $prefix => $data)
     ]));
 
     $router->mount($group);
+
+    // twig
+    $this->getLoader()->addPath(
+        $directory . '/views',
+        preg_replace('~\W+~', '', $prefix)
+    );
+    // /twig
 }
 
 unset($group, $prefix, $data);

@@ -19,8 +19,10 @@
   "require": {
     "php": "^7.0",
     "doctrine/inflector": "^1.0",
+    "phalcon/incubator": "^3.2",
     "bavix/config": "^1.0",
-    "ext-phalcon": "^3.2"
+    "ext-phalcon": "^3.2",
+    "twig/twig": "^2.4"
   },
   "autoload": {
     "psr-4": {

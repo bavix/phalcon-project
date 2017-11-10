@@ -4,6 +4,7 @@ namespace Framework;
 
 use Phalcon\Config;
 use Phalcon\Di\FactoryDefault;
+use Phalcon\Mvc\View\Engine\Twig;
 
 class Builder
 {
@@ -17,6 +18,11 @@ class Builder
      * @var string
      */
     protected $root;
+
+    /**
+     * @var \Twig_Loader_Filesystem
+     */
+    protected $loader;
 
     /**
      * Builder constructor.
@@ -34,6 +40,27 @@ class Builder
     public function root(): string
     {
         return $this->root;
+    }
+
+    /**
+     * @return \Twig_Loader_Filesystem
+     */
+    public function getLoader()
+    {
+        if (!$this->loader)
+        {
+            $this->loader = new \Twig_Loader_Filesystem(
+                [],
+                $this->root()
+            );
+
+            $this->loader->addPath(
+                BASE_PATH . '/views',
+                'root'
+            );
+        }
+
+        return $this->loader;
     }
 
     public function app(): App
@@ -65,7 +92,7 @@ class Builder
     public function config()
     {
         return $this->once(__FUNCTION__, function () {
-            return new \Bavix\Config\Config(BASE_PATH . 'config');
+            return new \Bavix\Config\Config(BASE_PATH . '/config');
         });
     }
 

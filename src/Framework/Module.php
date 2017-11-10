@@ -49,43 +49,19 @@ class Module implements ModuleDefinitionInterface
      */
     public function registerServices(DiInterface $di)
     {
-        $module = $this;
-
         /**
-         * Setting up the view component
+         * @var $builder Builder
+         * @var $view View
          */
-        $di->setShared('view', function () use ($module) {
+        $builder = $di['builder'];
+        $view = $di['view'];
 
-            /**
-             * @var $this \Phalcon\Di\FactoryDefault
-             * @var $configure Config
-             */
-            $configure = $this->getConfigure();
+        $builder->getLoader()->addPath(
+            $this->moduleDir() . '/views/',
+            '__main__'
+        );
 
-            $view = new View();
-            $view->setDI($this);
-            $view->setViewsDir($module->moduleDir() . '/views');
-
-            $view->registerEngines([
-                '.volt' => function ($view) use ($configure) {
-                    $volt = new View\Engine\Volt($view, $this);
-
-                    $volt->setOptions([
-                        'compiledPath' => $configure->application->cacheDir,
-                        'compiledSeparator' => '_'
-                    ]);
-
-                    return $volt;
-                },
-
-                '.phtml' => View\Engine\Php::class
-
-            ]);
-
-            return $view;
-        });
-
-
+        $view->setViewsDir($this->moduleDir() . '/views/');
     }
 
     /**
