@@ -80,7 +80,7 @@ class ControllerBase extends \Phalcon\Mvc\Controller
          */
         $value = $dispatcher->getReturnedValue();
 
-        if ($value === null)
+        if ($dispatcher->isFinished() && $value === null)
         {
             throw new Invalid('Response is empty', 422);
         }
